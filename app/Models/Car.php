@@ -59,6 +59,8 @@ class Car extends Model
         'transmission' => ['required', 'string', Rule::enum(TransmissionsType::class)],
         'fuel_type' => ['required', 'string', Rule::enum(FuelsType::class)],
         'engine' => ['required', 'string', Rule::enum(EnginesType::class)],
+        'image' => 'nullable|array',
+        'image.*' => 'mimes:jpeg,png,jpg|max:4096', // Taille max 4 Mo par image
     ];
 
     // Messages personnalisés pour les validations
@@ -96,5 +98,8 @@ class Car extends Model
         'engine.required' => 'Le type de moteur est requis.',
         'engine.string' => 'Le type de moteur doit être une chaîne de caractères.',
         'engine.in' => 'Le type de moteur doit être valide.',
+        'image.array' => 'L\'image doit être un tableau.',
+        'image.*.mimes' => 'L\'image doit être au format jpeg, png ou jpg.',
+        'image.*.max' => 'Chaque image ne peut pas dépasser 4 Mo.',
     ];
 }
