@@ -46,5 +46,24 @@ class CarController extends Controller
         return response()->json(['data' => $car, 'message' => 'Voiture créée avec succès'], 201);
     }
 
+    // Mettre à jour une voiture existante
+    public function update(Request $request, $id)
+    {
+        $car = Car::findOrFail($id);
+
+        $validator = Validator::make($request->all(), Car::$rules, Car::$messages);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        // Mettre à jour la voiture et assigner les informations de l'utilisateur connecté
+        $car->update($request->all());
+        $car->updated_by = Auth::id();
+        $car->save();
+
+        return response()->json(['data' => $car, 'message' => 'Voiture mise à jour avec succès'], 200);
+    }
+
 
 }
