@@ -14,5 +14,11 @@ class CarController extends Controller
         return Validator::make($request->all(), Car::$rules, Car::$messages);
     }
 
-    
+    // Lister toutes les voitures
+    public function index()
+    {
+        return response()->json(['data' => Car::all()], 200);
+    }
+
+
 }
