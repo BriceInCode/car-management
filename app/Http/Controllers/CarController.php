@@ -19,6 +19,13 @@ class CarController extends Controller
     {
         return response()->json(['data' => Car::all()], 200);
     }
+    
+    // Afficher une voiture spécifique
+    public function show($id)
+    {
+        $car = Car::findOrFail($id);
+        return response()->json(['data' => $car], 200);
+    }
 
 
 }
