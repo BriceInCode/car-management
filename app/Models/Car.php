@@ -37,7 +37,7 @@ class Car extends Model
         'deleted_by',
     ];
 
-    // integration de enumerations pour certains champs
+    // Intégration d'énumérations pour certains champs
     protected $casts = [
         'drive_type' => DriversType::class,
         'transmission' => TransmissionsType::class,
@@ -48,7 +48,7 @@ class Car extends Model
 
     // Règles de validation
     public static $rules = [
-        'serial_number' => 'required|unique:cars,serial_number,' . ($data['id'] ?? 'NULL'),
+        'serial_number' => 'required|unique:cars,serial_number',
         'brand' => 'required|string|max:255',
         'model' => 'required|string|max:255',
         'year' => 'required|integer|min:1900|max:' . (date('Y') + 1),
