@@ -86,5 +86,37 @@ class CarController extends Controller
         return response()->json(['data' => $car, 'message' => 'Voiture restaurée avec succès'], 200);
     }
 
+    // Télécharger une image pour une voiture
+    public function uploadImage(Request $request, $id)
+    {
+        $car = Car::findOrFail($id);
+
+        $validator = Validator::make($request->all(), [
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $path = $request->file('image')->store('car_images', 'public');
+        $car->image = $path;
+        $car->save();
+
+        return response()->json(['data' => $car, 'message' => 'Image téléchargée avec succès'], 200);
+    }
+
+    // Récupérer une image d'une voiture
+    public function getImage($id)
+    {
+        $car = Car::findOrFail($id);
+
+        if (!$car->image) {
+            return response()->json(['message' => 'Image non trouvée'], 404);
+        }
+
+        return response()->json(['image_url' => Storage::url($car->image)], 200);
+    }
+
 
 }
