@@ -102,4 +102,20 @@ class Car extends Model
         'image.*.mimes' => 'L\'image doit être au format jpeg, png ou jpg.',
         'image.*.max' => 'Chaque image ne peut pas dépasser 4 Mo.',
     ];
+
+    // Relations avec l'utilisateur (création, mise à jour, suppression)
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function updatedBy()
+    {
+        return $this->belongsTo(User::class, 'updated_by');
+    }
+
+    public function deletedBy()
+    {
+        return $this->belongsTo(User::class, 'deleted_by');
+    }
 }
