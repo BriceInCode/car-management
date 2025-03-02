@@ -65,5 +65,26 @@ class CarController extends Controller
         return response()->json(['data' => $car, 'message' => 'Voiture mise à jour avec succès'], 200);
     }
 
+    // Supprimer une voiture (soft delete)
+    public function destroy($id)
+    {
+        $car = Car::findOrFail($id);
+
+        $car->deleted_by = Auth::id();  // Utilisateur qui supprime la voiture
+        $car->delete();
+
+        return response()->json(['message' => 'Voiture supprimée avec succès'], 200);
+    }
+
+    // Restaurer une voiture supprimée (soft delete)
+    public function restore($id)
+    {
+        $car = Car::withTrashed()->findOrFail($id);
+
+        $car->restore();
+
+        return response()->json(['data' => $car, 'message' => 'Voiture restaurée avec succès'], 200);
+    }
+
 
 }
